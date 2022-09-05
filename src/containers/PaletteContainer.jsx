@@ -8,6 +8,7 @@ import "./paletteContainer.scss";
 const PaletteContainer = () => {
     const [colours, setColours] = useState([]);
     const [colourBlocks, setColourBlocks] = useState([]);
+    const havePalette = colours.length > 0;
 
     const fetchColours = async (colour, size) => {
         try {
@@ -29,7 +30,7 @@ const PaletteContainer = () => {
                 throw new Error(response.status + " error with request");
             }
             const data = await response.json();
-            setColours(data.sort());
+            setColours(data);
         } catch (error) {
             alert(error.message);
         }
@@ -65,9 +66,8 @@ const PaletteContainer = () => {
         setColourBlocks(createBlocks(colours));
     }, [colours]);
 
-    const animString = (i) => `blob 0.6s ease ${i}s forwards`;
-
     const createBlocks = (coloursArr) => {
+        const animString = (i) => `blob 0.6s ease ${i}s forwards`;
         let blocks = [];
         for (let i = 0; i < coloursArr.length; i++) {
             blocks[i] = (
@@ -81,6 +81,10 @@ const PaletteContainer = () => {
         return blocks;
     };
 
+    const sortColdToWarm = (coloursArr) => {
+        setColourBlocks(createBlocks(coloursArr.sort()));
+    };
+
     return (
         <>
             <div className="palette-container">
@@ -89,7 +93,7 @@ const PaletteContainer = () => {
             </div>
             <Button
                 onClick={() => {
-                    fetchColours(null, 500);
+                    fetchColours(null, 10);
                 }}
                 value="Generate Palette"
             />
@@ -99,6 +103,14 @@ const PaletteContainer = () => {
                 }}
                 value="Save Palette"
             />
+            {havePalette && (
+                <Button
+                    onClick={() => {
+                        sortColdToWarm(colours);
+                    }}
+                    value="Sort cold to warm"
+                />
+            )}
         </>
     );
 };
