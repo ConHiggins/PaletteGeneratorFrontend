@@ -1,0 +1,49 @@
+
+.colour-block{
+    width: 10rem;
+    height: 10rem;
+    animation: blob 0.5s ease;
+    transform: scale(0);
+    &-container{
+        transition: transform 0.5s ease;
+        margin: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    &-properties{
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        height: 5rem;
+        align-items: center;
+    }
+
+    &-container:hover{
+        transform: scale(120%);
+         .colour-block-properties {
+            opacity: 1;
+        }
+    }
+     
+
+    
+
+    
+
+    @keyframes blob {
+
+        0%{
+            border-radius: 50%;
+            transform: scale(0);
+        }
+        75%{
+            transform: scale(150%);
+            border-radius: 50%;
+        }
+        100%{
+            border-radius: 0;
+            transform: scale(100%);
+        }
+        
+    }
+}
