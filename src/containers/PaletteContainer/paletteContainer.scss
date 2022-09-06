@@ -1,6 +1,7 @@
 .palette-container {
     display: flex;
     flex-direction: row;
+    width: 50vw;
     
     &-generate {
         flex-wrap: wrap;
@@ -27,6 +28,15 @@
         
     }
 
+}
+
+.colours-amount {
+    width: 50vw;
+}
+
+.generator-buttons {
+    display: flex;
+    flex-direction: row;
 }
 
 @keyframes sway_1 {

@@ -5,9 +5,12 @@ import ColourBlock from "../../components/ColourBlock/ColourBlock";
 
 import "./paletteContainer.scss";
 
-const PaletteContainer = ({ cols, type }) => {
+const PaletteContainer = ({ cols, type, name }) => {
     const [colours, setColours] = useState(cols);
     const [colourBlocks, setColourBlocks] = useState([]);
+    const [paletteSize, setPaletteSize] = useState(12);
+    const [paletteName, setPaletteName] = useState("");
+
     const className = `palette-container palette-container-${type}`;
 
     const fetchColours = async (colour, size) => {
@@ -63,7 +66,7 @@ const PaletteContainer = ({ cols, type }) => {
         }
     };
 
-    const savePalette = async (palette) => {
+    const savePalette = async (palette, name) => {
         try {
             const response = await fetch(
                 "http://localhost:8080/palettes/save",
@@ -76,7 +79,8 @@ const PaletteContainer = ({ cols, type }) => {
 
                     body: JSON.stringify({
                         coloursHex: palette,
-                        createdBy: "bing bong",
+                        name: name,
+                        createdBy: "",
                     }),
                 }
             );
@@ -120,30 +124,77 @@ const PaletteContainer = ({ cols, type }) => {
         setColourBlocks(createBlocks(coloursArr.sort()));
     };
 
+    const handleSlider = (e) => {
+        setPaletteSize(e.target.value);
+    };
+
     return (
         <>
+            {type == "loaded" && <h1>{name}</h1>}
             <div className={className}>{colourBlocks}</div>
+
             {type == "generate" && (
                 <>
-                    <Button
-                        onClick={() => {
-                            fetchColours(null, 10);
+                    <input
+                        className="colours-amount"
+                        type="range"
+                        onChange={(event) => {
+                            handleSlider(event);
                         }}
-                        value="Generate Palette"
                     />
-                    <Button
-                        onClick={() => {
-                            savePalette(colours);
+                    <h1>Size: {paletteSize}</h1>
+                    <input
+                        placeholder="Palette name..."
+                        type="text"
+                        onBlur={(e) => {
+                            setPaletteName(e.target.value);
                         }}
-                        value="Save Palette"
                     />
+                    <div className="generator-buttons">
+                        <Button
+                            onClick={() => {
+                                fetchColours(null, paletteSize);
+                            }}
+                            value="Generate Palette"
+                        />
+                        <Button
+                            onClick={() => {
+                                if (colours.length < 1) {
+                                    return alert("Please generate a palette");
+                                } else if (paletteName == "") {
+                                    return alert("Please provide palette name");
+                                } else {
+                                    savePalette(colours, paletteName);
+                                }
+                            }}
+                            value="Save Palette"
+                        />
 
-                    <Button
-                        onClick={() => {
-                            sortColdToWarm(colours);
-                        }}
-                        value="Sort cold to warm"
-                    />
+                        <Button
+                            onClick={() => {
+                                sortColdToWarm(colours);
+                            }}
+                            value="Sort cold to warm"
+                        />
+                        <Button
+                            onClick={() => {
+                                fetchColoursBaseRGB(null, paletteSize, "r");
+                            }}
+                            value="I'm feeling red..."
+                        />
+                        <Button
+                            onClick={() => {
+                                fetchColoursBaseRGB(null, paletteSize, "g");
+                            }}
+                            value="I'm feeling green..."
+                        />
+                        <Button
+                            onClick={() => {
+                                fetchColoursBaseRGB(null, paletteSize, "b");
+                            }}
+                            value="I'm feeling blue..."
+                        />
+                    </div>
                 </>
             )}
         </>

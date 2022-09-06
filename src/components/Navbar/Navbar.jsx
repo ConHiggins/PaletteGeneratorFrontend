@@ -4,9 +4,15 @@ import "./Navbar.scss";
 const Navbar = () => {
     return (
         <div className="navbar">
-            <Link to={"/"}>Home</Link>
-            <Link to={"/generate"}>Generator</Link>
-            <Link to={"/palettes"}>All palettes</Link>
+            <Link to={"/"} className="navbar-item">
+                Home
+            </Link>
+            <Link to={"/generate"} className="navbar-item">
+                Generator
+            </Link>
+            <Link to={"/palettes"} className="navbar-item">
+                All Palettes
+            </Link>
         </div>
     );
 };
