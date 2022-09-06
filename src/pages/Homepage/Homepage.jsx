@@ -1,13 +1,20 @@
 import "./Homepage.scss";
 import PaletteContainer from "../../containers/PaletteContainer/PaletteContainer";
 import AllPalettes from "../../containers/AllPalettes/AllPalettes";
+import Navbar from "../../components/Navbar/Navbar";
+import Button from "../../components/Button/Button";
+import { Link } from "react-router-dom";
 const Homepage = () => {
     return (
         <div className="homepage">
+            <Navbar />
             <div className="homepage-splash">
-                <h1 className="homepage-splash-title">
-                    Welcome to the generator!
-                </h1>
+                <div className="homepage-splash-title">
+                    <h1>Welcome to the generator!</h1>
+                    <Link to={"/generate"}>
+                        <Button value="Let's go" />
+                    </Link>
+                </div>
                 <PaletteContainer type="homepage_1" />
                 <PaletteContainer type="homepage_2" />
                 <PaletteContainer type="homepage_1" />
@@ -15,7 +22,6 @@ const Homepage = () => {
                 <PaletteContainer type="homepage_1" />
                 <PaletteContainer type="homepage_2" />
             </div>
-            <AllPalettes />
         </div>
     );
 };

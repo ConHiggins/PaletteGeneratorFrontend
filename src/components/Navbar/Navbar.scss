@@ -1,0 +1,10 @@
+.navbar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 10vw;    
+    height: 100vh;
+    position: fixed;
+    z-index: 100;
+    background-color: darkslategrey;
+}

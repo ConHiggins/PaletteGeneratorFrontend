@@ -3,15 +3,28 @@
     flex-direction: row;
     
     &-generate {
-    flex-wrap: wrap;    
-}
+        flex-wrap: wrap;
+        margin: 2rem;    
+    }
+
+    &-loaded {
+        flex-wrap: wrap;
+        margin: 2rem;  
+    }
     &-homepage {
         &_1{
-        animation: sway_1 30s ease infinite; 
+            animation: sway_1 30s ease infinite; 
+            &:hover{
+            animation-play-state: paused;
+            }
         }
         &_2 {
             animation: sway_2 30s ease infinite; 
+            &:hover{
+            animation-play-state: paused;
+            }
         }
+        
     }
 
 }

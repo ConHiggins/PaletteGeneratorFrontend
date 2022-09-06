@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Navbar from "../../components/Navbar/Navbar";
 import PaletteContainer from "../PaletteContainer/PaletteContainer";
 import "./AllPalettes.scss";
 
@@ -41,8 +42,11 @@ const AllPalettes = () => {
 
     return (
         <div>
-            <h1>All Palettes</h1>
-            <div>{paletteBlocks}</div>
+            <Navbar />
+            <div className="all-palettes">
+                <h1>All Palettes</h1>
+                <div>{paletteBlocks}</div>
+            </div>
         </div>
     );
 };
