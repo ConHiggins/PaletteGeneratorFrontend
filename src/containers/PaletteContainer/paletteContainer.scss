@@ -1,5 +1,53 @@
 .palette-container {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    
+    &-generate {
+    flex-wrap: wrap;    
+}
+    &-homepage {
+        &_1{
+        animation: sway_1 30s ease infinite; 
+        }
+        &_2 {
+            animation: sway_2 30s ease infinite; 
+        }
+    }
+
+}
+
+@keyframes sway_1 {
+
+    0%{
+        position: relative;
+        left: -65%;
+    }
+    50% {
+        position: relative;
+        left: 0%;
+    }
+    100%{
+        
+        position: relative;
+        left: -65%;
+    }
+    
+}
+
+@keyframes sway_2 {
+
+    0%{
+        position: relative;
+        left: 0%;
+    }
+    50% {
+        position: relative;
+        left: -65%;
+    }
+    100%{
+        
+        position: relative;
+        left: 0%;
+    }
+    
 }

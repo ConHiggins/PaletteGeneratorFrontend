@@ -36,12 +36,13 @@ const AllPalettes = () => {
     //don't use state you donut
 
     const paletteBlocks = palettesData.map((p) => (
-        <PaletteContainer key={p.id} cols={p.coloursHex} />
+        <PaletteContainer key={p.id} cols={p.coloursHex} type="loaded" />
     ));
 
     return (
         <div>
-            <div>{paletteBlocks}</div>;
+            <h1>All Palettes</h1>
+            <div>{paletteBlocks}</div>
         </div>
     );
 };

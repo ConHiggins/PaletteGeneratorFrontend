@@ -1,0 +1,17 @@
+
+
+.homepage{
+
+    &-splash {
+        position: relative;
+
+        &-title{
+            color: whitesmoke;
+            position: absolute;
+            left: 40vw;
+            top: 40vh;
+            z-index: 10;
+
+        }
+    }
+}

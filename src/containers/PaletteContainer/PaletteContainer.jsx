@@ -5,9 +5,10 @@ import ColourBlock from "../../components/ColourBlock/ColourBlock";
 
 import "./paletteContainer.scss";
 
-const PaletteContainer = ({ cols }) => {
+const PaletteContainer = ({ cols, type }) => {
     const [colours, setColours] = useState(cols);
     const [colourBlocks, setColourBlocks] = useState([]);
+    const className = `palette-container palette-container-${type}`;
 
     const fetchColours = async (colour, size) => {
         try {
@@ -90,6 +91,9 @@ const PaletteContainer = ({ cols }) => {
     useEffect(() => {
         console.log("cols ", colours);
         setColourBlocks(createBlocks(colours));
+        if (type == "homepage_1" || type == "homepage_2") {
+            fetchColours(null, 20);
+        }
     }, []);
 
     useEffect(() => {
@@ -118,26 +122,30 @@ const PaletteContainer = ({ cols }) => {
 
     return (
         <>
-            <div className="palette-container">{colourBlocks}</div>
-            <Button
-                onClick={() => {
-                    fetchColoursBaseRGB(null, 10, "b");
-                }}
-                value="Generate Palette"
-            />
-            <Button
-                onClick={() => {
-                    savePalette(colours);
-                }}
-                value="Save Palette"
-            />
+            <div className={className}>{colourBlocks}</div>
+            {type == "generate" && (
+                <>
+                    <Button
+                        onClick={() => {
+                            fetchColours(null, 10);
+                        }}
+                        value="Generate Palette"
+                    />
+                    <Button
+                        onClick={() => {
+                            savePalette(colours);
+                        }}
+                        value="Save Palette"
+                    />
 
-            <Button
-                onClick={() => {
-                    sortColdToWarm(colours);
-                }}
-                value="Sort cold to warm"
-            />
+                    <Button
+                        onClick={() => {
+                            sortColdToWarm(colours);
+                        }}
+                        value="Sort cold to warm"
+                    />
+                </>
+            )}
         </>
     );
 };
