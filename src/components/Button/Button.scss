@@ -1,6 +1,29 @@
-.button {
+.button-primary {
 
     width: 10rem;
     height: 5rem;
     margin: 2rem;
+    opacity: 0;
+    animation: fadein 1s ease 1s forwards;
+    border: none;
+    border-radius: 10px;
+    color: whitesmoke;
+    background-color: darkslategrey;
+    transition: color 0.6s ease, background-color 0.6s ease, border-radius 0.6s ease;
+    &:hover{
+        color: darkslategrey;
+        background-color: whitesmoke;
+        border-radius: 20px;
+    }
+}
+
+@keyframes fadein {
+
+    0%{
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+    
 }

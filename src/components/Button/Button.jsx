@@ -1,8 +1,9 @@
 import "./Button.scss";
 
-const Button = ({ value, onClick }) => {
+const Button = ({ value, onClick, classN }) => {
+    const className = `button-${classN}`;
     return (
-        <button className="button" onClick={onClick}>
+        <button className={className} onClick={onClick}>
             {value}
         </button>
     );

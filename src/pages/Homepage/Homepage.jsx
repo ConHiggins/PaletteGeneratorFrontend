@@ -12,7 +12,7 @@ const Homepage = () => {
                 <div className="homepage-splash-title">
                     <h1>Welcome to the generator!</h1>
                     <Link to={"/generate"}>
-                        <Button value="Let's go" />
+                        <Button value="Let's go" classN={"primary"} />
                     </Link>
                 </div>
                 <PaletteContainer type="homepage_1" />
