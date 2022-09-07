@@ -4,6 +4,8 @@
     height: 10rem;
     animation: blob 0.5s ease;
     transform: scale(0);
+    position: relative;
+    z-index: 0;
     &-container{
         transition: transform 0.5s ease;
         margin: none;
@@ -20,6 +22,7 @@
 
     &-container:hover{
         transform: scale(120%);
+        z-index: 100;
          .colour-block-properties {
             opacity: 1;
         }

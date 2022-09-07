@@ -2,8 +2,17 @@ import { useState } from "react";
 import { useEffect } from "react";
 import Button from "../../components/Button/Button";
 import ColourBlock from "../../components/ColourBlock/ColourBlock";
+import {
+    fetchColours,
+    fetchColoursBaseRGB,
+    savePalette,
+    hexToRGB,
+    RGBtoHSL,
+    HSLtoRGB,
+} from "../../API/PaletteService";
 
 import "./paletteContainer.scss";
+import HueBlock from "../../components/HueBlock/HueBlock";
 
 const PaletteContainer = ({ cols, type, name }) => {
     const [colours, setColours] = useState(cols);
@@ -12,98 +21,6 @@ const PaletteContainer = ({ cols, type, name }) => {
     const [paletteName, setPaletteName] = useState("");
 
     const className = `palette-container palette-container-${type}`;
-
-    const fetchColours = async (colour, size) => {
-        try {
-            const response = await fetch(
-                "http://localhost:8080/palettes/create",
-                {
-                    method: "POST",
-                    headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        Color: colour,
-                        size: size,
-                    }),
-                }
-            );
-            if (!response.ok) {
-                throw new Error(response.status + " error with request");
-            }
-            const data = await response.json();
-            setColours(data);
-        } catch (error) {
-            alert(error.message);
-        }
-    };
-
-    const fetchColoursBaseRGB = async (colour, size, rgb) => {
-        try {
-            const response = await fetch(
-                "http://localhost:8080/palettes/create/rgb",
-                {
-                    method: "POST",
-                    headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        Color: colour,
-                        size: size,
-                        rgb: rgb,
-                    }),
-                }
-            );
-            if (!response.ok) {
-                throw new Error(response.status + " error with request");
-            }
-            const data = await response.json();
-            setColours(data);
-        } catch (error) {
-            alert(error.message);
-        }
-    };
-
-    const savePalette = async (palette, name) => {
-        try {
-            const response = await fetch(
-                "http://localhost:8080/palettes/save",
-                {
-                    method: "POST",
-                    headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json",
-                    },
-
-                    body: JSON.stringify({
-                        coloursHex: palette,
-                        name: name,
-                        createdBy: "",
-                    }),
-                }
-            );
-            if (!response.ok) {
-                throw new Error(response.status + " error with request");
-            }
-        } catch (error) {
-            alert(error.message);
-        }
-    };
-
-    useEffect(() => {
-        console.log("cols ", colours);
-        setColourBlocks(createBlocks(colours));
-        if (type == "homepage_1" || type == "homepage_2") {
-            fetchColours(null, 20);
-        }
-    }, []);
-
-    useEffect(() => {
-        setColourBlocks([]);
-        setColourBlocks(createBlocks(colours));
-    }, [colours]);
 
     const createBlocks = (coloursArr) => {
         const animString = (i) => `blob 0.6s ease ${i}s forwards`;
@@ -114,6 +31,9 @@ const PaletteContainer = ({ cols, type, name }) => {
                     key={coloursArr[i]}
                     colour={coloursArr[i]}
                     animation={animString((i + 1) * 0.05)}
+                    hexToRGB={hexToRGB}
+                    RGBtoHSL={RGBtoHSL}
+                    HSLtoRGB={HSLtoRGB}
                 />
             );
         }
@@ -127,6 +47,19 @@ const PaletteContainer = ({ cols, type, name }) => {
     const handleSlider = (e) => {
         setPaletteSize(e.target.value);
     };
+
+    useEffect(() => {
+        console.log("cols ", colours);
+        setColourBlocks(createBlocks(colours));
+        if (type == "homepage_1" || type == "homepage_2") {
+            fetchColours(null, 20, setColours);
+        }
+    }, []);
+
+    useEffect(() => {
+        setColourBlocks([]);
+        setColourBlocks(createBlocks(colours));
+    }, [colours]);
 
     return (
         <>
@@ -144,6 +77,7 @@ const PaletteContainer = ({ cols, type, name }) => {
                     />
                     <h1>Size: {paletteSize}</h1>
                     <input
+                        className="palette-name"
                         placeholder="Palette name..."
                         type="text"
                         onBlur={(e) => {
@@ -152,12 +86,14 @@ const PaletteContainer = ({ cols, type, name }) => {
                     />
                     <div className="generator-buttons">
                         <Button
+                            classN="secondary"
                             onClick={() => {
-                                fetchColours(null, paletteSize);
+                                fetchColours(null, paletteSize, setColours);
                             }}
                             value="Generate Palette"
                         />
                         <Button
+                            classN="secondary"
                             onClick={() => {
                                 if (colours.length < 1) {
                                     return alert("Please generate a palette");
@@ -171,26 +107,45 @@ const PaletteContainer = ({ cols, type, name }) => {
                         />
 
                         <Button
+                            classN="secondary"
                             onClick={() => {
                                 sortColdToWarm(colours);
                             }}
                             value="Sort cold to warm"
                         />
                         <Button
+                            classN="secondary"
                             onClick={() => {
-                                fetchColoursBaseRGB(null, paletteSize, "r");
+                                fetchColoursBaseRGB(
+                                    null,
+                                    paletteSize,
+                                    "r",
+                                    setColours
+                                );
                             }}
                             value="I'm feeling red..."
                         />
                         <Button
+                            classN="secondary"
                             onClick={() => {
-                                fetchColoursBaseRGB(null, paletteSize, "g");
+                                fetchColoursBaseRGB(
+                                    null,
+                                    paletteSize,
+                                    "g",
+                                    setColours
+                                );
                             }}
                             value="I'm feeling green..."
                         />
                         <Button
+                            classN="secondary"
                             onClick={() => {
-                                fetchColoursBaseRGB(null, paletteSize, "b");
+                                fetchColoursBaseRGB(
+                                    null,
+                                    paletteSize,
+                                    "b",
+                                    setColours
+                                );
                             }}
                             value="I'm feeling blue..."
                         />
