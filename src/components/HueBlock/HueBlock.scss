@@ -3,9 +3,23 @@
     position: absolute;
     z-index: -100;
     left: -100%;
+    animation: fadein 0.5s ease;
 }
 
 .hue-slice {
     width: 10rem;
     height: 2rem;
+    &:hover {
+        border: 2px solid white;
+    }
+}
+
+@keyframes fadein {
+    
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
 }
