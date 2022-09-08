@@ -25,23 +25,13 @@ const AllPalettes = () => {
         fetchAllPalettes();
     }, []);
 
-    useEffect(() => {
-        const tempPalettes = [];
-        for (let i = 0; i < palettesData.length; i++) {
-            tempPalettes[i] = palettesData[i].coloursHex;
-        }
-    }, [palettesData]);
-
-    ///Have palettes data
-    ///Map to array
-    //don't use state you donut
-
     const paletteBlocks = palettesData.map((p) => (
         <PaletteContainer
             key={p.id}
             cols={p.coloursHex}
             type="loaded"
             name={p.name}
+            createdBy={p.createdBy}
         />
     ));
 

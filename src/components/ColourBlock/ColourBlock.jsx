@@ -8,7 +8,12 @@ const ColourBlock = ({ colour, animation, hexToRGB, RGBtoHSL, HSLtoRGB }) => {
     const [hues, toggleHues] = useState(false);
     const [hsl, setHsl] = useState("");
     return (
-        <div className="colour-block-container">
+        <div
+            className="colour-block-container"
+            onMouseLeave={() => {
+                toggleHues(false);
+            }}
+        >
             {hues && (
                 <HueBlock
                     baseCol={colourBG}
@@ -19,9 +24,6 @@ const ColourBlock = ({ colour, animation, hexToRGB, RGBtoHSL, HSLtoRGB }) => {
             <div
                 className="colour-block"
                 style={{ backgroundColor: colourBG, animation: animation }}
-                onMouseLeave={() => {
-                    toggleHues(false);
-                }}
             >
                 <p className="colour-block-properties">{colourBG}</p>
                 <Button
@@ -48,6 +50,7 @@ const ColourBlock = ({ colour, animation, hexToRGB, RGBtoHSL, HSLtoRGB }) => {
                         toggleHues(!hues);
                     }}
                 />
+
                 <p className="colour-block-properties">
                     {hexToRGB(colourBG).join()}
                 </p>

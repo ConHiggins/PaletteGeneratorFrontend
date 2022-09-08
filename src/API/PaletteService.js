@@ -48,7 +48,7 @@ export const fetchColoursBaseRGB = async (colour, size, rgb, setColours) => {
     }
 };
 
-export const savePalette = async (palette, name) => {
+export const savePalette = async (palette, name, createdBy) => {
     try {
         const response = await fetch("http://localhost:8080/palettes/save", {
             method: "POST",
@@ -60,7 +60,7 @@ export const savePalette = async (palette, name) => {
             body: JSON.stringify({
                 coloursHex: palette,
                 name: name,
-                createdBy: "",
+                createdBy: createdBy,
             }),
         });
         if (!response.ok) {
@@ -172,4 +172,48 @@ export const HSLtoRGB = (h, s, l) => {
     b = Math.round((b + m) * 255);
 
     return [r, g, b];
+};
+
+const fib = (n) => {
+    if (n == 0) {
+        return 0;
+    } else if (n == 1) {
+        return 1;
+    } else {
+        return fib(n - 1) + fib(n - 2);
+    }
+};
+
+export const fibonacciPalette = (baseHex, paletteSize) => {
+    const baseRGB = hexToRGB(baseHex);
+    const baseHSL = RGBtoHSL(baseRGB[0], baseRGB[1], baseRGB[2]);
+    let palette = [];
+    for (let i = 0; i < paletteSize; i++) {
+        baseHSL[0] = baseHSL[0] + fib(i);
+        while (baseHSL[0] > 360) {
+            baseHSL[0] -= 360;
+        }
+        baseHSL[1] = baseHSL[1] + fib(i);
+        while (baseHSL[1] > 100) {
+            baseHSL[1] -= 100;
+        }
+        baseHSL[2] = baseHSL[2] + fib(i);
+        while (baseHSL[2] > 100) {
+            baseHSL[2] -= 100;
+        }
+        console.log(baseHSL[2]);
+        palette[i] = HSLtoRGB(baseHSL[0], baseHSL[1], baseHSL[2]);
+        palette[i] = rgbToHex(palette[i][0], palette[i][1], palette[i][2]);
+    }
+
+    const finalPalette = Array.from(
+        new Set(
+            palette.map((c) => {
+                return c;
+            })
+        )
+    );
+
+    console.log("fib", finalPalette);
+    return finalPalette;
 };

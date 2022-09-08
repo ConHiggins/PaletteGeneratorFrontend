@@ -9,16 +9,18 @@ import {
     hexToRGB,
     RGBtoHSL,
     HSLtoRGB,
+    fibonacciPalette,
 } from "../../API/PaletteService";
 
 import "./paletteContainer.scss";
 import HueBlock from "../../components/HueBlock/HueBlock";
 
-const PaletteContainer = ({ cols, type, name }) => {
+const PaletteContainer = ({ cols, type, name, createdBy }) => {
     const [colours, setColours] = useState(cols);
     const [colourBlocks, setColourBlocks] = useState([]);
     const [paletteSize, setPaletteSize] = useState(12);
-    const [paletteName, setPaletteName] = useState("");
+    let paletteName = "";
+    let username = "";
 
     const className = `palette-container palette-container-${type}`;
 
@@ -63,7 +65,12 @@ const PaletteContainer = ({ cols, type, name }) => {
 
     return (
         <>
-            {type == "loaded" && <h1>{name}</h1>}
+            {type == "loaded" && (
+                <h2 className="palette-name">
+                    {name} by {createdBy}
+                </h2>
+            )}
+
             <div className={className}>{colourBlocks}</div>
 
             {type == "generate" && (
@@ -71,6 +78,9 @@ const PaletteContainer = ({ cols, type, name }) => {
                     <input
                         className="colours-amount"
                         type="range"
+                        min={2}
+                        max={24}
+                        value={paletteSize}
                         onChange={(event) => {
                             handleSlider(event);
                         }}
@@ -81,7 +91,15 @@ const PaletteContainer = ({ cols, type, name }) => {
                         placeholder="Palette name..."
                         type="text"
                         onBlur={(e) => {
-                            setPaletteName(e.target.value);
+                            paletteName = e.target.value;
+                        }}
+                    />
+                    <input
+                        className="palette-name"
+                        placeholder="Your name..."
+                        type="text"
+                        onBlur={(e) => {
+                            username = e.target.value;
                         }}
                     />
                     <div className="generator-buttons">
@@ -99,8 +117,10 @@ const PaletteContainer = ({ cols, type, name }) => {
                                     return alert("Please generate a palette");
                                 } else if (paletteName == "") {
                                     return alert("Please provide palette name");
+                                } else if (username == "") {
+                                    return alert("Please provide your name");
                                 } else {
-                                    savePalette(colours, paletteName);
+                                    savePalette(colours, paletteName, username);
                                 }
                             }}
                             value="Save Palette"
@@ -148,6 +168,15 @@ const PaletteContainer = ({ cols, type, name }) => {
                                 );
                             }}
                             value="I'm feeling blue..."
+                        />
+                        <Button
+                            classN="secondary"
+                            onClick={() => {
+                                setColours(
+                                    fibonacciPalette(colours[0], paletteSize)
+                                );
+                            }}
+                            value="fibonacci..?"
                         />
                     </div>
                 </>
