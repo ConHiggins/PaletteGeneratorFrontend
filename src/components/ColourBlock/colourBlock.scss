@@ -6,6 +6,7 @@
     transform: scale(0);
     position: relative;
     z-index: 0;
+    font-weight: bold;
     &-container{
         transition: transform 0.5s ease;
         margin: none;
@@ -28,7 +29,7 @@
             opacity: 1;
         }
         .button-colour-block{
-            opacity:0.7;
+            opacity:1;
         }
     }
      
@@ -53,9 +54,33 @@
 .button-colour-block{
     opacity: 0;
     transition: opacity 0.5s ease;
-    background: grey;
+    font-weight: bold;
+    border: none;
+    border-radius: 0.5rem;
+    color: black;
     width: 3rem;
     height: 2rem;
-    border: none;
-    margin: 2px;
+    transition: background-color 0.3s ease;
+    &:hover{
+        background-color: whitesmoke;
+    }
+}
+
+.buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.button-wrapper{
+    border: 2px solid transparent;
+    margin: -2px;
+    padding: none;
+    border-radius: 0.5rem;
+    transition: border 0.3s ease;
+    &:hover{
+        border:2px solid whitesmoke;
+        margin: -2px;
+        z-index: 100;
+    }
 }

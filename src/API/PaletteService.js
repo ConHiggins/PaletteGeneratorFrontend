@@ -201,7 +201,6 @@ export const fibonacciPalette = (baseHex, paletteSize) => {
         while (baseHSL[2] > 100) {
             baseHSL[2] -= 100;
         }
-        console.log(baseHSL[2]);
         palette[i] = HSLtoRGB(baseHSL[0], baseHSL[1], baseHSL[2]);
         palette[i] = rgbToHex(palette[i][0], palette[i][1], palette[i][2]);
     }
@@ -213,7 +212,5 @@ export const fibonacciPalette = (baseHex, paletteSize) => {
             })
         )
     );
-
-    console.log("fib", finalPalette);
     return finalPalette;
 };

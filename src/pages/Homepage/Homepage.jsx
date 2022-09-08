@@ -10,7 +10,7 @@ const Homepage = () => {
             <Navbar />
             <div className="homepage-splash">
                 <div className="homepage-splash-title">
-                    <h1>Welcome to the generator!</h1>
+                    <h1>Welcome to Chromatic!</h1>
                     <Link to={"/generate"}>
                         <Button value="Let's go" classN={"primary"} />
                     </Link>

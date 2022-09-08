@@ -10,6 +10,7 @@ import {
     RGBtoHSL,
     HSLtoRGB,
     fibonacciPalette,
+    rgbToHex,
 } from "../../API/PaletteService";
 
 import "./paletteContainer.scss";
@@ -172,6 +173,12 @@ const PaletteContainer = ({ cols, type, name, createdBy }) => {
                         <Button
                             classN="secondary"
                             onClick={() => {
+                                colours[0] = rgbToHex(
+                                    Math.floor(Math.random() * 255),
+                                    Math.floor(Math.random() * 255),
+                                    Math.floor(Math.random() * 255)
+                                );
+
                                 setColours(
                                     fibonacciPalette(colours[0], paletteSize)
                                 );
